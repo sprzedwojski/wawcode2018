@@ -1,9 +1,5 @@
 exports.pois = [{
     id: '4f89212bf76dde31f092cfc14d7506555d85b5c7',
-    location: {
-        lat: 52.2326708,
-        lng: 21.0209542
-    },
     open: {
         freeSundays: {
             open: true,
@@ -18,10 +14,6 @@ exports.pois = [{
 },
 {
     id: '1',
-    location: {
-        lat: 52.2326710,
-        lng: 21.0509545
-    },
     open: {
         freeSundays: {
             open: false
