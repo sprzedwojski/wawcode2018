@@ -1,10 +1,23 @@
 import React, { Component } from 'react'
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
+import { GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs } from 'react-google-maps'
+import { List, ListItem } from 'material-ui/List'
+import ActionGrade from 'material-ui/svg-icons/action/grade'
 
 class MapComponent extends Component {
     constructor() {
         super()
         this.warsawCoords = { lat: 52.237049, lng: 21.017532 }
+        this.state = {
+            openMarkerId: null
+        }
+    }
+
+    toggleInfoWindow(markerId) {
+        if (this.state.openMarkerId === markerId) {
+            this.setState({ openMarkerId: null })
+        } else {
+            this.setState({ openMarkerId: markerId })
+        }
     }
 
     render() {
@@ -14,11 +27,26 @@ class MapComponent extends Component {
                 defaultCenter={this.warsawCoords}
             >
                 {this.props.markers.map(marker =>
-                    <Marker key={marker.id} position={{ lat: marker.lat, lng: marker.lng }} />
+                    <Marker key={marker.id} position={{ lat: marker.lat, lng: marker.lng }}
+                            onClick={() => this.toggleInfoWindow(marker.id)}>
+                        {this.state.openMarkerId === marker.id &&
+                        <InfoWindow onCloseClick={() => this.toggleInfoWindow(marker.id)}>
+                            <InfoWindowContent marker={marker}/>
+                        </InfoWindow>
+                        }
+                    </Marker>
                 )}
             </GoogleMap>
         )
     }
 }
+
+const InfoWindowContent = props => (
+    <div>
+        {props.marker.openOnSunday && <List>
+            <ListItem primaryText="Otwarte we wszystkie niedziele!" leftIcon={<ActionGrade/>}/>
+        </List>}
+    </div>
+)
 
 export default withScriptjs(withGoogleMap(MapComponent))

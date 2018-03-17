@@ -12,9 +12,7 @@
     "no-unused-vars": "off",
     "max-len": "off",
     "function-paren-newline": "off",
-    "indent": [
-      "error", 4
-    ],
+    "indent": "off",
     "semi": ["error", "never"],
     "class-methods-use-this": "off"
   },
