@@ -71,7 +71,7 @@ app.get('/', (req, res) => {
 })
 app.get('/api/test', testController.test)
 app.get('/api/pois', poiController.getPois)
-app.post('api/pois', poiController.addPoi)
+app.post('/api/pois', poiController.addPoi)
 /**
  * Error Handler.
  */
