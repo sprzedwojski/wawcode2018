@@ -1,11 +1,33 @@
 const data = require('../data/pois')
+const googleApi = require('../googleApi')
 
-let localPoiStorage = []
+const localPoiStorage = []
 
 Object.assign(localPoiStorage, data.pois)
 
-exports.getPois = () => localPoiStorage
+const getPoiById = id => localPoiStorage.filter(item => item.id === id)[0]
+
+exports.getPois = (location, radius) => {
+    googleApi.getPoints(location, radius, (items) => {
+        return items.map((item) => {
+            const poiData = getPoiById(item.id)
+            const poi = {
+                location: item.geometry.location,
+                name: item.name
+            }
+            if (poiData !== undefined) {
+                poi.open = poiData.open
+            }
+            return poi
+        })
+    })
+}
 
 exports.savePoi = (poi) => {
     localPoiStorage.push(poi)
+}
+
+exports.editPoi = (id, params) => {
+    const item = getPoiById(id)
+    item.open.freeSundaysSuggestions.push(params)
 }

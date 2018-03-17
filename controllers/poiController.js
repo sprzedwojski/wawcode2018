@@ -5,7 +5,7 @@ exports.getPois = (req, res) => {
 }
 
 exports.getPoisByRadius = (req, res) => {
-    res.json(poiService.getPois())
+    res.json(poiService.getPois(req.data.latLong, req.data.radius))
 }
 
 exports.addPoi = (req, res) => {
@@ -13,7 +13,7 @@ exports.addPoi = (req, res) => {
     res.sendStatus(200)
 }
 
-exports.setPoiOpenness = (req, res) => {
-    poiService.setPoiOpen(req.body.id, req.body.open)
+exports.editPoi = (req, res) => {
+    poiService.editPoi(req.params.id, req.body)
     res.sendStatus(200)
 }

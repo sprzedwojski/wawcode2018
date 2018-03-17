@@ -26,8 +26,9 @@ class MapComponent extends Component {
                 defaultZoom={13}
                 defaultCenter={this.warsawCoords}
             >
-                {this.props.markers.map(marker =>
-                    <Marker key={marker.id} position={{ lat: marker.lat, lng: marker.lng }}
+                {
+                    this.props.markers.map(marker =>
+                    <Marker key={marker.id} position={{ lat: marker.location.lat, lng: marker.location.lng }}
                             onClick={() => this.toggleInfoWindow(marker.id)}>
                         {this.state.openMarkerId === marker.id &&
                         <InfoWindow onCloseClick={() => this.toggleInfoWindow(marker.id)}>
