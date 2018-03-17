@@ -10,6 +10,7 @@
     "no-plusplus": 0,
     "no-unused-expressions": 0,
     "no-unused-vars": "off",
+    "max-len": "120",
     "indent": [
       "error", 4
     ],
