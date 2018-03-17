@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs } from 'react-google-maps'
 import { List, ListItem } from 'material-ui/List'
 import ActionGrade from 'material-ui/svg-icons/action/grade'
+import { AlertError, AlertWarning } from 'material-ui/svg-icons/index'
+import { RaisedButton } from 'material-ui'
 
 class MapComponent extends Component {
     constructor() {
@@ -28,17 +30,20 @@ class MapComponent extends Component {
             >
                 {
                     this.props.markers.map(marker =>
-                    <Marker key={marker.id} position={{ lat: marker.location.lat, lng: marker.location.lng }}
-                            onClick={() => this.toggleInfoWindow(marker.id)}>
-                        {this.state.openMarkerId === marker.id &&
-                        <InfoWindow onCloseClick={() => this.toggleInfoWindow(marker.id)}>
-                            <InfoWindowContent marker={marker}/>
-                        </InfoWindow>
-                        }
-                    </Marker>
-                )}
+                        <Marker key={marker.id} position={{ lat: marker.location.lat, lng: marker.location.lng }}
+                                onClick={() => this.toggleInfoWindow(marker.id)}>
+                            {this.state.openMarkerId === marker.id &&
+                            <InfoWindow onCloseClick={() => this.toggleInfoWindow(marker.id)}>
+                                <InfoWindowContent marker={marker}
+                                                   suggestOpen={this.props.handleSuggestOpen}
+                                                   suggestClosed={this.props.handleSuggestClosed}
+                                />
+                            </InfoWindow>
+                            }
+                        </Marker>
+                    )}
                 { this.props.userLocation &&
-                    <Marker key='user' position={{ lat: this.props.userLocation.coords.latitude, lng: this.props.userLocation.coords.longitude }} />
+                <Marker key='user' position={{ lat: this.props.userLocation.coords.latitude, lng: this.props.userLocation.coords.longitude }} />
                 }
             </GoogleMap>
         )
@@ -47,16 +52,53 @@ class MapComponent extends Component {
 
 const InfoWindowContent = props => (
     <div>
-        {props.marker.open && props.marker.open.freeSundays.open && <List>
-            <ListItem primaryText="Otwarte we wszystkie niedziele!" leftIcon={<ActionGrade/>}/>
-        </List>}
-        {props.marker.open && !props.marker.open.freeSundays.open && <List>
-            <ListItem primaryText="Zamknięte... :(" leftIcon={<ActionGrade/>}/>
-        </List>}
-        {!props.marker.open && <List>
-            <ListItem primaryText="Niestety nic nie wiemy o tym POI... :(" leftIcon={<ActionGrade/>}/>
-        </List>}
+        {props.marker.open && props.marker.open.freeSundays.open && <OpenFreeSundaysPOIInfo {...props}/>}
+        {props.marker.open && !props.marker.open.freeSundays.open && <OpenWorkingSundaysPOIInfo {...props}/>}
+        {!props.marker.open && <UnknownPOIInfo {...props}/>}
     </div>
 )
+
+const UnknownPOIInfo = props => (
+    <div>
+        <List>
+            <ListItem primaryText="Niestety nic nie wiemy o tym POI... :(" leftIcon={<AlertWarning/>}/>
+        </List>
+        <RaisedButton label="Oznacz jako otwarte" primary={true} onClick={() => props.suggestOpen(props.marker.id)}/>
+    </div>
+)
+
+const OpenWorkingSundaysPOIInfo = (props) => {
+    const { open } = props.marker
+    const openSuggestions = open ? open.freeSundaysSuggestions.filter(fss => fss.open) : []
+    return (
+        <div>
+            <List>
+                <ListItem primaryText="Zamknięte w niedziele handlowe..." leftIcon={<AlertError/>}/>
+                {openSuggestions.length > 0 &&
+                <ListItem primaryText={`${openSuggestions.length} 
+                    użytkowników zasugerowało otwarcie w niedziele handlowe`} leftIcon={<ActionGrade/>}/>
+                }
+            </List>
+            <RaisedButton label="Oznacz jako otwarte" primary={true} onClick={() => props.suggestOpen(props.marker.id)}/>
+        </div>
+    )
+}
+
+const OpenFreeSundaysPOIInfo = (props) => {
+    const { open } = props.marker
+    const closedSuggestions = open ? open.freeSundaysSuggestions.filter(fss => !fss.open) : []
+    return (
+        <div>
+            <List>
+                <ListItem primaryText="Otwarte we wszystkie niedziele" leftIcon={<ActionGrade/>}/>
+                {closedSuggestions.length > 0 &&
+                <ListItem primaryText={`${closedSuggestions.length} 
+                    użytkowników zasugerowało zamknięcie w niedziele handlowe`} leftIcon={<AlertWarning/>}/>
+                }
+            </List>
+            <RaisedButton label="Oznacz jako zamknięte" secondary={true} onClick={() => props.suggestClosed(props.marker.id)}/>
+        </div>
+    )
+}
 
 export default withScriptjs(withGoogleMap(MapComponent))
