@@ -9,9 +9,9 @@
   "author": "Sahat Yalkabov",
   "license": "MIT",
   "scripts": {
-    "postinstall": "npm rebuild node-sass",
     "start": "node app.js",
     "start-dev": "nodemon --inspect app.js",
+    "preinstall": "cd frontend && yarn install && yarn build && cd ..",
     "test": "mocha --reporter spec",
     "lint": "eslint **/*.js frontend/src/*"
   },

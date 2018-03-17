@@ -15,6 +15,7 @@ class App extends Component {
     componentDidMount() {
         client.get('/api/pois')
             .then(res => this.setState({ pois: res.data }))
+        console.log(process.env.NODE_ENV)
     }
 
     render() {
