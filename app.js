@@ -9,23 +9,22 @@ const chalk = require('chalk')
 const errorHandler = require('errorhandler')
 const dotenv = require('dotenv')
 const path = require('path')
-const mongoose = require('mongoose')
 const expressValidator = require('express-validator')
 const expressStatusMonitor = require('express-status-monitor')
 const sass = require('node-sass-middleware')
 const cors = require('cors')
 
-
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv.load({ path: '.env.example' })
+dotenv.load({ path: 'process.env' })
 
 /**
  * Controllers (route handlers).
  */
 const testController = require('./controllers/test')
 const poiController = require('./controllers/poiController')
+const googleApi = require('./googleApi')
 
 /**
  * Create Express server.
@@ -72,6 +71,8 @@ app.get('/', (req, res) => {
 app.get('/api/test', testController.test)
 app.get('/api/pois', poiController.getPois)
 app.post('/api/pois', poiController.addPoi)
+app.get('/api/google', googleApi.test)
+
 /**
  * Error Handler.
  */
