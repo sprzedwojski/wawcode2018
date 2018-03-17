@@ -16,6 +16,7 @@
     "lint": "eslint **/*.js frontend/src/*"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "bcrypt-nodejs": "^0.0.3",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",

@@ -12,3 +12,8 @@ exports.addPoi = (req, res) => {
     poiService.savePoi(req.body.poi)
     res.sendStatus(200)
 }
+
+exports.setPoiOpenness = (req, res) => {
+    poiService.setPoiOpen(req.body.id, req.body.open)
+    res.sendStatus(200)
+}
