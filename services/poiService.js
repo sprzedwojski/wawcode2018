@@ -29,7 +29,7 @@ exports.savePoi = (poi) => {
     localPoiStorage.push(poi)
 }
 
-exports.editPoi = (id, open) => {
+exports.editPoi = (id, open, callback) => {
     const item = getPoiById(id)
     if (item === undefined) {
         this.savePoi({
@@ -43,4 +43,5 @@ exports.editPoi = (id, open) => {
     } else {
         item.open.freeSundaysSuggestions.push(open)
     }
+    callback()
 }

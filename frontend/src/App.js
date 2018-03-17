@@ -19,6 +19,12 @@ class App extends Component {
                 radius: 10000
             }
         }).then(res => this.setState({ pois: res.data }))
+        navigator.geolocation.getCurrentPosition((position) => {
+            this.setState({ location: position })
+            console.log('position:', position)
+        }, (error) => {
+            console.log('error getting location', error)
+        })
         console.log(process.env.NODE_ENV)
     }
 
@@ -32,6 +38,7 @@ class App extends Component {
                     loadingElement={<div style={{ height: '100%' }}/>}
                     containerElement={<div style={{ height: '90vh' }}/>}
                     mapElement={<div style={{ height: '100%' }}/>}
+                    userLocation={this.state.location}
                 />
             </div>
         )

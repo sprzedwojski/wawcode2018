@@ -14,6 +14,5 @@ exports.addPoi = (req, res) => {
 }
 
 exports.editPoi = (req, res) => {
-    poiService.editPoi(req.params.id, req.body)
-    res.sendStatus(200)
+    poiService.editPoi(req.params.id, req.body, () => res.sendStatus(200))
 }
