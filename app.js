@@ -25,6 +25,7 @@ dotenv.load({ path: '.env.example' })
  * Controllers (route handlers).
  */
 const testController = require('./controllers/test')
+const poiController = require('./controllers/poiController')
 
 /**
  * Create Express server.
@@ -69,7 +70,8 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'))
 })
 app.get('/api/test', testController.test)
-
+app.get('/api/pois', poiController.getPois)
+app.post('api/pois', poiController.addPoi)
 /**
  * Error Handler.
  */
