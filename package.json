@@ -33,6 +33,7 @@
     "lob": "^5.1.0",
     "mongoose": "^5.0.9",
     "morgan": "^1.8.2",
+    "node-fetch": "^2.1.1",
     "node-sass": "^4.7.2",
     "node-sass-middleware": "^0.11.0",
     "request": "^2.81.0",
