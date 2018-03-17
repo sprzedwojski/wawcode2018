@@ -13,8 +13,12 @@ class App extends Component {
     }
 
     componentDidMount() {
-        client.get('/api/pois')
-            .then(res => this.setState({ pois: res.data }))
+        client.get('/api/pois', {
+            params: {
+                latLong: '52.237049,21.017532',
+                radius: 10000
+            }
+        }).then(res => this.setState({ pois: res.data }))
         console.log(process.env.NODE_ENV)
     }
 

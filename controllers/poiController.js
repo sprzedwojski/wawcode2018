@@ -5,7 +5,7 @@ exports.getPois = (req, res) => {
 }
 
 exports.getPoisByRadius = (req, res) => {
-    res.json(poiService.getPois(req.data.latLong, req.data.radius))
+    poiService.getPois(req.query.latLong, req.query.radius, pois => res.json(pois))
 }
 
 exports.addPoi = (req, res) => {

@@ -44,8 +44,14 @@ class MapComponent extends Component {
 
 const InfoWindowContent = props => (
     <div>
-        {props.marker.openOnSunday && <List>
+        {props.marker.open && props.marker.open.freeSundays.open && <List>
             <ListItem primaryText="Otwarte we wszystkie niedziele!" leftIcon={<ActionGrade/>}/>
+        </List>}
+        {props.marker.open && !props.marker.open.freeSundays.open && <List>
+            <ListItem primaryText="Zamknięte... :(" leftIcon={<ActionGrade/>}/>
+        </List>}
+        {!props.marker.open && <List>
+            <ListItem primaryText="Niestety nic nie wiemy o tym POI... :(" leftIcon={<ActionGrade/>}/>
         </List>}
     </div>
 )
