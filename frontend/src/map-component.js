@@ -13,7 +13,9 @@ class MapComponent extends Component {
                 defaultZoom={13}
                 defaultCenter={this.warsawCoords}
             >
-                <Marker position={this.warsawCoords} />
+                {this.props.markers.map(marker =>
+                    <Marker key={marker.id} position={{ lat: marker.lat, lng: marker.lng }} />
+                )}
             </GoogleMap>
         )
     }

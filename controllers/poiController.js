@@ -1,7 +1,7 @@
-let pois = require('../data/pois')
+const pois = require('../data/pois').pois
 
 exports.getPois = (req, res) => {
-    res.json({ pois })
+    res.json(pois)
 }
 
 exports.getPoisByRadius = (req, res) => {

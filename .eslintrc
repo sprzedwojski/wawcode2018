@@ -11,6 +11,7 @@
     "no-unused-expressions": 0,
     "no-unused-vars": "off",
     "max-len": "off",
+    "function-paren-newline": "off",
     "indent": [
       "error", 4
     ],
