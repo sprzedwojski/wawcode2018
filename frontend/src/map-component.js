@@ -145,7 +145,7 @@ const OpenWorkingSundaysPOIInfo = (props) => {
     return (
         <div>
             <List>
-                <ListItem primaryText="Zamknięte w niedziele handlowe..." leftIcon={<AlertError/>}/>
+                <ListItem primaryText="Brak danych o punkcie." leftIcon={<AlertError/>}/>
                 {openSuggestions.length > 0 &&
                 <ListItem primaryText={`${openSuggestions.length}
                     użytkowników zasugerowało otwarcie w niedziele handlowe`} leftIcon={<ActionGrade/>}/>
