@@ -10,6 +10,8 @@ class App extends Component {
         this.state = {
             pois: []
         }
+        this.warsawCenterLatLong = '52.237049,21.017532'
+        this.lastLatLong = this.warsawCenterLatLong
     }
 
     componentDidMount() {
@@ -27,10 +29,12 @@ class App extends Component {
         console.log(process.env.NODE_ENV)
     }
 
-    getPois() {
+    getPois(latLong) {
+        if (latLong) { this.lastLatLong = latLong }
+
         client.get('/api/pois', {
             params: {
-                latLong: '52.237049,21.017532'
+                latLong: latLong || this.lastLatLong
             }
         }).then(res => this.setState({ pois: res.data }))
     }
@@ -62,14 +66,15 @@ class App extends Component {
             <div className="App">
                 <AppBar title="Gdzie na zakupy w niedzielę?"/>
                 <MapComponent
-                    handleSuggestOpen={(id) => this.handleSuggestOpen(id)}
-                    handleSuggestClosed={(id) => this.handleSuggestClosed(id)}
+                    handleSuggestOpen={id => this.handleSuggestOpen(id)}
+                    handleSuggestClosed={id => this.handleSuggestClosed(id)}
                     markers={this.state.pois}
                     googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAjCi8R-MDjzw40FbSMKNRNfgsjySNiJuM"
                     loadingElement={<div style={{ height: '100%' }}/>}
                     containerElement={<div style={{ height: '90vh' }}/>}
                     mapElement={<div style={{ height: '100%' }}/>}
                     userLocation={this.state.location}
+                    forceGetPois={latLong => this.getPois(latLong)}
                 />
             </div>
         )

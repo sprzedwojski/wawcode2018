@@ -14,7 +14,8 @@
     "function-paren-newline": "off",
     "indent": "off",
     "semi": ["error", "never"],
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "no-undef": "off"
   },
   "plugins": [
     "react"

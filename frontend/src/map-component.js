@@ -40,13 +40,24 @@ class MapComponent extends Component {
         this.setState({ centerChanged: true })
     }
 
+    forceGetPois() {
+        this.setState({ centerChanged: false })
+        const centerObj = this.map.getCenter()
+
+        // To jest magia...
+        const center = JSON.parse(JSON.stringify(centerObj))
+
+        const location = `${center.lat},${center.lng}`
+        this.props.forceGetPois(location)
+    }
+
     render() {
         return (
             <div>
                 {this.state.centerChanged && <RaisedButton label="Wyszukaj w tym obszarze" style={this.buttonStyle}
-                                                           onClick={() => this.setState({ centerChanged: false })}/>}
+                                                           onClick={() => this.forceGetPois()}/>}
                 <GoogleMap
-                    defaultZoom={15}
+                    defaultZoom={17}
                     defaultCenter={this.warsawCoords}
                     center={this.props.userLocation && this.props.userLocation}
                     onCenterChanged={() => this.handleCenterChanged()}
