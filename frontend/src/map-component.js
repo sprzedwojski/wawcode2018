@@ -126,7 +126,7 @@ const InfoWindowContent = props => (
 const UnknownPOIInfo = props => (
     <div>
         <List>
-            <ListItem primaryText="Niestety nic nie wiemy o tym POI... :(" leftIcon={<AlertWarning/>}/>
+            <ListItem primaryText="Brak danych o punkcie." leftIcon={<AlertWarning/>}/>
         </List>
         <RaisedButton label="Oznacz jako otwarte" primary={true} onClick={() => props.suggestOpen(props.marker.id)}/>
     </div>
