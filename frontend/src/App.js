@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-    AppBar, Chip, Dialog, FlatButton, IconButton, List, ListItem, RaisedButton, Toggle, Toolbar, ToolbarGroup,
+    AppBar, Chip, Dialog, FlatButton, IconButton, List, ListItem, Toggle, Toolbar, ToolbarGroup,
     ToolbarTitle
 } from 'material-ui'
 import { ActionTrackChanges, ActionDateRange } from 'material-ui/svg-icons/index'
@@ -247,7 +247,7 @@ class App extends Component {
                             open={this.state.dialogOpen}>
                             <List>
                             {
-                                this.freeSundays.map(date => <ListItem primaryText={new Date(date).toLocaleDateString().split(',')[0]} />)
+                                this.freeSundays.map(date => <ListItem key={date} primaryText={new Date(date).toLocaleDateString().split(',')[0]} />)
                             }
                             </List>
                         </Dialog>

@@ -6,6 +6,7 @@ import { List, ListItem } from 'material-ui/List'
 import ActionGrade from 'material-ui/svg-icons/action/grade'
 import { AlertError, AlertWarning, DeviceGpsFixed, ActionAlarm } from 'material-ui/svg-icons/index'
 import { FloatingActionButton, RaisedButton } from 'material-ui'
+import { MarkerWithLabel } from 'react-google-maps/lib/components/addons/MarkerWithLabel'
 
 class MapComponent extends Component {
     constructor() {
@@ -60,9 +61,9 @@ class MapComponent extends Component {
     resolveMarkerIcon(marker) {
         let icon = ''
         if (marker.open && marker.open.freeSundays.open) {
-            icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+            icon = './icon-green.png'
         } else if (marker.open && marker.open.freeSundaysSuggestions.filter(sugg => sugg.open).length > marker.open.freeSundaysSuggestions.filter(sugg => !sugg.open).length) {
-            icon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+            icon = './icon-blue.png'
         }
         return icon
     }
@@ -87,13 +88,18 @@ class MapComponent extends Component {
                     ref={this.onMapMounted.bind(this)}>
                     {
                         this.props.markers.map(marker =>
-                            <Marker key={marker.id}
+                            <MarkerWithLabel key={marker.id}
                                 position={{ lat: marker.location.lat, lng: marker.location.lng }}
                                 onClick={() => this.toggleInfoWindow(marker.id)}
-                                label={marker.name.substring(0, 20)}
-                                icon={this.resolveMarkerIcon(marker)}>
-                                {this.state.openMarkerId === marker.id &&
-                                <InfoWindow onCloseClick={() => this.toggleInfoWindow(marker.id)}>
+                                icon={this.resolveMarkerIcon(marker)}
+                                labelAnchor={new google.maps.Point(0, 0)}>
+                                <div>
+                                    <span>{marker.name.substring(0, 20)}</span>
+                                {
+                                    this.state.openMarkerId === marker.id &&
+                                <InfoWindow onCloseClick={() => this.toggleInfoWindow(marker.id)} position={{ lat: marker.location.lat, lng: marker.location.lng }}
+                                options={{ pixelOffset: new google.maps.Size(-1, -38) }}
+                                >
                                     <InfoWindowContent marker={marker}
                                                        suggestOpen={this.props.handleSuggestOpen}
                                                        suggestClosed={this.props.handleSuggestClosed}
@@ -101,12 +107,12 @@ class MapComponent extends Component {
                                     />
                                 </InfoWindow>
                                 }
-                            </Marker>
+                                </div>
+                            </MarkerWithLabel>
                         )}
                     {this.props.userLocation &&
                     <Marker key='user' position={this.props.userLocation}
-                    icon='https://cdn2.iconfinder.com/data/icons/flat-ui-icons-24-px/24/location-24-32.png'
-                />
+                    icon='https://cdn2.iconfinder.com/data/icons/flat-ui-icons-24-px/24/location-24-32.png'/>
                     }
                 </GoogleMap>
             </div>
