@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AppBar, Toggle, Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui'
+import {AppBar, Chip, Toggle, Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui'
 import { ActionTrackChanges } from 'material-ui/svg-icons/index'
 import client from './client'
 import './App.css'
@@ -223,7 +223,14 @@ class App extends Component {
                         {
                             isSunday && isNextSundayFree && <ActionTrackChanges color={'red'}/>
                         }
-                        <ToolbarTitle text={message} style={{ marginLeft: '50px'}}/>
+                        <ToolbarTitle text={message} style={{ marginLeft: '50px' }}/>
+                    </ToolbarGroup>
+                    <ToolbarGroup>
+                        {this.searchType !== 'store' &&
+                            <Chip onRequestDelete={() => this.handleTypeSelected(this.poiTypes[0])}>
+                                {this.poiTypes.filter(type => type.type === this.searchType)[0].namePl}
+                            </Chip>
+                        }
                     </ToolbarGroup>
                 </Toolbar>
                 <MapComponent
@@ -233,7 +240,7 @@ class App extends Component {
                     markers={this.state.onlyFreeSundays ? this.state.pois.filter(poi => poi.open && poi.open.freeSundays.open) : this.state.pois}
                     googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyD4MEmEF15lUmc_65JM-YG7AqAmcCeZObU"
                     loadingElement={<div style={{ height: '100%' }}/>}
-                    containerElement={<div style={{ height: '90vh' }}/>}
+                    containerElement={<div style={{ height: '87vh' }}/>}
                     mapElement={<div style={{ height: '100%' }}/>}
                     userLocation={this.state.location}
                     forceGetPois={latLong => this.getPois(latLong)}
