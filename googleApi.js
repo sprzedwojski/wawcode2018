@@ -14,3 +14,10 @@ exports.getPoints = (location, searchRadius, callback) => {
         '&key=' + process.env.GOOGLE_API_KEY
     axios.get(url).then(res => callback(res.data.results))
 }
+
+exports.getPlaceDetails = (placeId, callback) => {
+    const url = 'https://maps.googleapis.com/maps/api/place/details/json?' +
+        'placeid=' + placeId +
+        '&key=' + process.env.GOOGLE_API_KEY
+    axios.get(url).then(res => callback(res.data))
+}
