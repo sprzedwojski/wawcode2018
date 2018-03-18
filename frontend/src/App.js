@@ -12,6 +12,7 @@ class App extends Component {
         }
         this.warsawCenterLatLong = '52.237049,21.017532'
         this.lastLatLong = this.warsawCenterLatLong
+        this.searchType = 'store'
     }
 
     componentDidMount() {
@@ -34,7 +35,8 @@ class App extends Component {
 
         client.get('/api/pois', {
             params: {
-                latLong: latLong || this.lastLatLong
+                latLong: latLong || this.lastLatLong,
+                type: this.searchType
             }
         }).then(res => this.setState({ pois: res.data }))
     }
