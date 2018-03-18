@@ -265,7 +265,7 @@ class App extends Component {
                     handleSuggestClosed={id => this.handleSuggestClosed(id)}
                     handleAdminMarkOpen={id => this.handleAdminMarkOpen(id)}
                     markers={this.state.onlyFreeSundays ? this.state.pois.filter(poi => poi.open && poi.open.freeSundays.open) : this.state.pois}
-                    googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyD4MEmEF15lUmc_65JM-YG7AqAmcCeZObU"
+                    googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyDH3VaXI2neFHhzcSJAYOlryMgcTLhKtdU"
                     loadingElement={<div style={{ height: '100%' }}/>}
                     containerElement={<div style={{ height: '87vh' }}/>}
                     mapElement={<div style={{ height: '100%' }}/>}

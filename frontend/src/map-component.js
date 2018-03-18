@@ -122,17 +122,16 @@ class MapComponent extends Component {
 
 const InfoWindowContent = props => (
     <div>
-        {<List><ListItem primaryText={props.marker.name}/></List>}
         {props.marker.open && props.marker.open.freeSundays.open && <OpenFreeSundaysPOIInfo {...props}/>}
         {props.marker.open && !props.marker.open.freeSundays.open && <OpenWorkingSundaysPOIInfo {...props}/>}
         {!props.marker.open && <UnknownPOIInfo {...props}/>}
-        <RaisedButton label="Admin: Oznacz jako otwarte" secondary={true} onClick={() => props.adminMarkOpen(props.marker.id)}/>
     </div>
 )
 
 const UnknownPOIInfo = props => (
     <div>
         <List>
+            <ListItem primaryText={props.marker.name}/>
             <ListItem primaryText="Brak danych o punkcie." leftIcon={<AlertWarning/>}/>
         </List>
         <RaisedButton label="Oznacz jako otwarte" primary={true} onClick={() => props.suggestOpen(props.marker.id)}/>
@@ -145,6 +144,7 @@ const OpenWorkingSundaysPOIInfo = (props) => {
     return (
         <div>
             <List>
+                <ListItem primaryText={props.marker.name}/>
                 <ListItem primaryText="Brak danych o punkcie." leftIcon={<AlertError/>}/>
                 {openSuggestions.length > 0 &&
                 <ListItem primaryText={`${openSuggestions.length}
@@ -164,6 +164,7 @@ const OpenFreeSundaysPOIInfo = (props) => {
     return (
         <div>
             <List>
+                <ListItem primaryText={props.marker.name}/>
                 <ListItem primaryText="Otwarte we wszystkie niedziele" leftIcon={<ActionGrade/>}/>
                 {hasOpeningHours ? <ListItem primaryText={`${open.freeSundays.openingHour} - ${open.freeSundays.closingHour}`} leftIcon={<ActionAlarm/>}/> : ''}
                 {closedSuggestions.length > 0 &&
