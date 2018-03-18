@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 import React, { Component } from 'react'
 import { GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs } from 'react-google-maps'
 import { List, ListItem } from 'material-ui/List'
@@ -36,7 +38,6 @@ class MapComponent extends Component {
 
     handleCenterChanged() {
         this.setState({ centerChanged: true })
-        console.log(this.map.getCenter())
     }
 
     render() {
@@ -53,8 +54,10 @@ class MapComponent extends Component {
                 >
                     {
                         this.props.markers.map(marker =>
-                            <Marker key={marker.id} position={{ lat: marker.location.lat, lng: marker.location.lng }}
-                                    onClick={() => this.toggleInfoWindow(marker.id)}>
+                            <Marker key={marker.id}
+                                position={{ lat: marker.location.lat, lng: marker.location.lng }}
+                                    onClick={() => this.toggleInfoWindow(marker.id)}
+                                label={marker.name}>
                                 {this.state.openMarkerId === marker.id &&
                                 <InfoWindow onCloseClick={() => this.toggleInfoWindow(marker.id)}>
                                     <InfoWindowContent marker={marker}
@@ -66,7 +69,12 @@ class MapComponent extends Component {
                             </Marker>
                         )}
                     {this.props.userLocation &&
-                    <Marker key='user' position={this.props.userLocation}/>
+                    <Marker key='user' position={this.props.userLocation}
+                    icon={{
+                        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                        scale: 4
+                            }}
+                />
                     }
                 </GoogleMap>
             </div>
@@ -99,7 +107,7 @@ const OpenWorkingSundaysPOIInfo = (props) => {
             <List>
                 <ListItem primaryText="Zamknięte w niedziele handlowe..." leftIcon={<AlertError/>}/>
                 {openSuggestions.length > 0 &&
-                <ListItem primaryText={`${openSuggestions.length} 
+                <ListItem primaryText={`${openSuggestions.length}
                     użytkowników zasugerowało otwarcie w niedziele handlowe`} leftIcon={<ActionGrade/>}/>
                 }
             </List>
@@ -117,7 +125,7 @@ const OpenFreeSundaysPOIInfo = (props) => {
             <List>
                 <ListItem primaryText="Otwarte we wszystkie niedziele" leftIcon={<ActionGrade/>}/>
                 {closedSuggestions.length > 0 &&
-                <ListItem primaryText={`${closedSuggestions.length} 
+                <ListItem primaryText={`${closedSuggestions.length}
                     użytkowników zasugerowało zamknięcie w niedziele handlowe`} leftIcon={<AlertWarning/>}/>
                 }
             </List>
