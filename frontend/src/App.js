@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
-import {AppBar, Chip, Toggle, Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui'
-import { ActionTrackChanges } from 'material-ui/svg-icons/index'
+import {
+    AppBar, Chip, Dialog, FlatButton, IconButton, List, ListItem, RaisedButton, Toggle, Toolbar, ToolbarGroup,
+    ToolbarTitle
+} from 'material-ui'
+import { ActionTrackChanges, ActionDateRange } from 'material-ui/svg-icons/index'
 import client from './client'
 import './App.css'
 import MapComponent from './map-component'
@@ -12,7 +15,8 @@ class App extends Component {
         this.state = {
             pois: [],
             onlyFreeSundays: false,
-            drawerOpen: false
+            drawerOpen: false,
+            dialogOpen: false
         }
         this.warsawCenterLatLong = '52.237049,21.017532'
         this.lastLatLong = this.warsawCenterLatLong
@@ -111,6 +115,14 @@ class App extends Component {
             return date
         }
         return new Date(date.getFullYear(), date.getMonth(), date.getDate() + (7 - date.getDay()))
+    }
+
+    handleDialogOpen() {
+        this.setState({ dialogOpen: true })
+    }
+
+    handleDialogClose() {
+        this.setState({ dialogOpen: false })
     }
 
     getPois(latLong) {
@@ -224,6 +236,21 @@ class App extends Component {
                             isSunday && isNextSundayFree && <ActionTrackChanges color={'red'}/>
                         }
                         <ToolbarTitle text={message} style={{ marginLeft: '50px' }}/>
+                        <IconButton onClick={() => this.handleDialogOpen()}>
+                            <ActionDateRange/>
+                        </IconButton>
+                        <Dialog
+                            title={'Niedziele wolne od handlu w 2018 r'}
+                            autoScrollBodyContent={true}
+                            actions={[<FlatButton label="Zamknij" primary={true} onClick={() => this.handleDialogClose()}/>]}
+                            onRequestClose={() => this.handleDialogClose()}
+                            open={this.state.dialogOpen}>
+                            <List>
+                            {
+                                this.freeSundays.map(date => <ListItem primaryText={new Date(date).toLocaleDateString().split(',')[0]} />)
+                            }
+                            </List>
+                        </Dialog>
                     </ToolbarGroup>
                     <ToolbarGroup>
                         {this.searchType !== 'store' &&
