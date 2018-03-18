@@ -1,11 +1,11 @@
 const poiService = require('../services/poiService')
 
 exports.getPois = (req, res) => {
-    res.json(poiService.getPois())
-}
-
-exports.getNearestPois = (req, res) => {
-    poiService.getPois(req.query.latLong, pois => res.json(pois))
+    let searchType = req.query.type
+    if (searchType === undefined) {
+        searchType = 'store'
+    }
+    poiService.getPoisByType(req.query.latLong, searchType, pois => res.json(pois))
 }
 
 exports.addPoi = (req, res) => {
