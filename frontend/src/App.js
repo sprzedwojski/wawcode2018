@@ -3,17 +3,65 @@ import { AppBar, Toggle } from 'material-ui'
 import client from './client'
 import './App.css'
 import MapComponent from './map-component'
+import MyDrawer from './my-drawer'
 
 class App extends Component {
     constructor() {
         super()
         this.state = {
             pois: [],
-            onlyFreeSundays: true
+            onlyFreeSundays: false,
+            drawerOpen: false
         }
         this.warsawCenterLatLong = '52.237049,21.017532'
         this.lastLatLong = this.warsawCenterLatLong
         this.searchType = 'store'
+        this.poiTypes = [
+            {
+                namePl: 'Wszystkie',
+                type: 'store'
+            },
+            {
+                namePl: 'Piekarnie',
+                type: 'bakery'
+            },
+            {
+                namePl: 'Ubrania',
+                type: 'clothing_store'
+            },
+            {
+                namePl: 'Dom towarowy',
+                type: 'department_store'
+            },
+            {
+                namePl: 'Elektronika',
+                type: 'electronics_store'
+            },
+            {
+                namePl: 'Stacje benzynowe',
+                type: 'gas_station'
+            },
+            {
+                namePl: 'Sklepy z alkoholem',
+                type: 'liquor_store'
+            },
+            {
+                namePl: 'Apteki',
+                type: 'pharmacy'
+            },
+            {
+                namePl: 'Buty',
+                type: 'shoe_store'
+            },
+            {
+                namePl: 'Centrum handlowe',
+                type: 'shopping_mall'
+            },
+            {
+                namePl: 'Supermarket',
+                type: 'supermarket'
+            }
+        ]
     }
 
     componentDidMount() {
@@ -82,6 +130,19 @@ class App extends Component {
         console.log(isInputChecked)
     }
 
+    toggleDrawer() {
+        this.setState({ drawerOpen: !this.state.drawerOpen })
+    }
+
+    handleDrawerStateChanged(open) {
+        this.setState({ drawerOpen: open })
+    }
+
+    handleTypeSelected(poiType) {
+        this.searchType = poiType.type
+        this.getPois()
+    }
+
     render() {
         const styles = {
             thumbSwitched: {
@@ -103,9 +164,15 @@ class App extends Component {
                             trackSwitchedStyle={styles.trackSwitched}
                             labelStyle={styles.labelStyle}
                             style={{ marginTop: '1rem' }}
-                            defaultToggled={true}
+                            defaultToggled={false}
                             onToggle={(event, isInputChecked) => this.handleOnlyFreeSundaysToggled(event, isInputChecked)}
                         />}
+                        onLeftIconButtonClick={() => this.toggleDrawer()}
+                />
+                <MyDrawer open={this.state.drawerOpen}
+                          onDrawerStateChanged={open => this.handleDrawerStateChanged(open)}
+                          onTypeSelected={poiType => this.handleTypeSelected(poiType)}
+                          items={this.poiTypes}
                 />
                 <MapComponent
                     handleSuggestOpen={id => this.handleSuggestOpen(id)}
