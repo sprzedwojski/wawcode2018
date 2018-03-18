@@ -4,8 +4,8 @@ import React, { Component } from 'react'
 import { GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs } from 'react-google-maps'
 import { List, ListItem } from 'material-ui/List'
 import ActionGrade from 'material-ui/svg-icons/action/grade'
-import { AlertError, AlertWarning, DeviceGpsFixed } from 'material-ui/svg-icons/index'
-import { FloatingActionButton, RaisedButton} from 'material-ui'
+import { AlertError, AlertWarning, DeviceGpsFixed, ActionAlarm } from 'material-ui/svg-icons/index'
+import { FloatingActionButton, RaisedButton } from 'material-ui'
 
 class MapComponent extends Component {
     constructor() {
@@ -144,10 +144,12 @@ const OpenWorkingSundaysPOIInfo = (props) => {
 const OpenFreeSundaysPOIInfo = (props) => {
     const { open } = props.marker
     const closedSuggestions = open ? open.freeSundaysSuggestions.filter(fss => !fss.open) : []
+    const hasOpeningHours = open && open.freeSundays && open.freeSundays.openingHour && open.freeSundays.closingHour
     return (
         <div>
             <List>
                 <ListItem primaryText="Otwarte we wszystkie niedziele" leftIcon={<ActionGrade/>}/>
+                {hasOpeningHours ? <ListItem primaryText={`${open.freeSundays.openingHour} - ${open.freeSundays.closingHour}`} leftIcon={<ActionAlarm/>}/> : ''}
                 {closedSuggestions.length > 0 &&
                 <ListItem primaryText={`${closedSuggestions.length}
                     użytkowników zasugerowało zamknięcie w niedziele handlowe`} leftIcon={<AlertWarning/>}/>
