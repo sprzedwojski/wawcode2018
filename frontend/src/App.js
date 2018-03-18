@@ -213,7 +213,7 @@ class App extends Component {
         message = message.concat(isNextSundayFree ? 'niehandlowa.' : 'zwykła.')
         return (
             <div className="App">
-                <AppBar title="Gdzie na zakupy w niedzielę?"
+                <AppBar title="Zakupy w niedziele"
                         iconElementRight={<Toggle
                             label="Tylko niedziele niehandlowe"
                             thumbSwitchedStyle={styles.thumbSwitched}

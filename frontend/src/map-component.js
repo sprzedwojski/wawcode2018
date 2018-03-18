@@ -134,7 +134,9 @@ const UnknownPOIInfo = props => (
             <ListItem primaryText={props.marker.name}/>
             <ListItem primaryText="Brak danych o punkcie." leftIcon={<AlertWarning/>}/>
         </List>
-        <RaisedButton label="Oznacz jako otwarte" primary={true} onClick={() => props.suggestOpen(props.marker.id)}/>
+        <RaisedButton label="Oznacz jako otwarte" primary={true} onClick={() => props.suggestOpen(props.marker.id)}
+                      style={{ width: '100%' }}
+        />
     </div>
 )
 
@@ -152,7 +154,9 @@ const OpenWorkingSundaysPOIInfo = (props) => {
                 }
             </List>
             <RaisedButton label="Oznacz jako otwarte" primary={true}
-                          onClick={() => props.suggestOpen(props.marker.id)}/>
+                          onClick={() => props.suggestOpen(props.marker.id)}
+                          style={{ width: '100%' }}
+            />
         </div>
     )
 }
@@ -173,7 +177,9 @@ const OpenFreeSundaysPOIInfo = (props) => {
                 }
             </List>
             <RaisedButton label="Oznacz jako zamknięte" secondary={true}
-                          onClick={() => props.suggestClosed(props.marker.id)}/>
+                          onClick={() => props.suggestClosed(props.marker.id)}
+                          style={{ width: '100%' }}
+            />
         </div>
     )
 }
