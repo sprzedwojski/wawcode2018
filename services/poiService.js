@@ -3,6 +3,22 @@ const googleApi = require('../googleApi')
 
 const localPoiStorage = []
 
+const alwaysOpen = {
+    open: {
+        freeSundays: { open: true, openingHour: '0:00', closingHour: '23:59' },
+        workingSundays: {},
+        freeSundaysSuggestions: []
+    }
+}
+
+const pharmacyOpen = {
+    open: {
+        freeSundays: { open: true, openingHour: '8:00', closingHour: '20:00' },
+        workingSundays: {},
+        freeSundaysSuggestions: []
+    }
+}
+
 Object.assign(localPoiStorage, data.pois)
 
 const getPoiById = id => localPoiStorage.filter(item => item.id === id)[0]
@@ -15,6 +31,11 @@ exports.getPoisByType = (location, type, cb) => {
                 id: item.id,
                 location: item.geometry.location,
                 name: item.name
+            }
+            if (item.types.includes('gas_station')) {
+                poi.open = alwaysOpen.open
+            } else if (item.types.includes('pharmacy')) {
+                poi.open = pharmacyOpen.open
             }
             if (poiData !== undefined) {
                 poi.open = poiData.open
