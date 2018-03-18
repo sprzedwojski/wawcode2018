@@ -22,6 +22,12 @@ class MapComponent extends Component {
             left: '50%',
             transform: 'translateX(-50%)'
         }
+        this.centerButtonStyle = {
+            position: 'fixed',
+            top: '100px',
+            right: '5%',
+            transform: 'translateX(5%)'
+        }
     }
 
     toggleInfoWindow(markerId) {
@@ -56,6 +62,11 @@ class MapComponent extends Component {
             <div>
                 {this.state.centerChanged && <RaisedButton label="Wyszukaj w tym obszarze" style={this.buttonStyle}
                                                            onClick={() => this.forceGetPois()}/>}
+                <RaisedButton label="Wycentruj na mnie" style={this.centerButtonStyle} onClick={() => {
+                    this.map.panTo(this.props.userLocation)
+                    this.forceGetPois()
+                }}/>
+
                 <GoogleMap
                     defaultZoom={17}
                     defaultCenter={this.warsawCoords}
