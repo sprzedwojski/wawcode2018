@@ -69,7 +69,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'))
 })
 app.get('/api/test', testController.test)
-app.get('/api/pois', poiController.getPoisByRadius)
+app.get('/api/pois', poiController.getNearestPois)
 app.post('/api/pois', poiController.addPoi)
 app.get('/api/google', googleApi.test)
 app.post('/api/pois/:id', poiController.editPoi)

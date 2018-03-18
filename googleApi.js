@@ -1,16 +1,18 @@
 const axios = require('axios')
 
-const radius = 500
 const googleCampLocation = '52.256202,21.0434033'
+const searchType = 'store'
+const rankBy = 'distance'
 
 exports.test = (req, res) => {
-    this.getPoints(googleCampLocation, radius, (result) => { res.json(result) })
+    this.getPoints(googleCampLocation, (result) => { res.json(result) })
 }
 
-exports.getPoints = (location, searchRadius, callback) => {
+exports.getPoints = (location, callback) => {
     const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' +
         'location=' + location +
-        '&radius=' + searchRadius +
+        '&type=' + searchType +
+        '&rankby=' + rankBy +
         '&key=' + process.env.GOOGLE_API_KEY
     axios.get(url).then(res => callback(res.data.results))
 }

@@ -7,8 +7,8 @@ Object.assign(localPoiStorage, data.pois)
 
 const getPoiById = id => localPoiStorage.filter(item => item.id === id)[0]
 
-exports.getPois = (location, radius, cb) => {
-    googleApi.getPoints(location, radius, (items) => {
+exports.getPois = (location, cb) => {
+    googleApi.getPoints(location, (items) => {
         const pois = items.map((item) => {
             const poiData = getPoiById(item.id)
             const poi = {

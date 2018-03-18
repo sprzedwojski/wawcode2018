@@ -30,8 +30,7 @@ class App extends Component {
     getPois() {
         client.get('/api/pois', {
             params: {
-                latLong: '52.237049,21.017532',
-                radius: 10000
+                latLong: '52.237049,21.017532'
             }
         }).then(res => this.setState({ pois: res.data }))
     }
