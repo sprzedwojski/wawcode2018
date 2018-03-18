@@ -57,6 +57,16 @@ class MapComponent extends Component {
         this.props.forceGetPois(location)
     }
 
+    resolveMarkerIcon(marker) {
+        let icon = ''
+        if (marker.open && marker.open.freeSundays.open) {
+            icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+        } else if (marker.open && marker.open.freeSundaysSuggestions.filter(sugg => sugg.open).length > marker.open.freeSundaysSuggestions.filter(sugg => !sugg.open).length) {
+            icon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+        }
+        return icon
+    }
+
     render() {
         return (
             <div>
@@ -81,7 +91,7 @@ class MapComponent extends Component {
                                 position={{ lat: marker.location.lat, lng: marker.location.lng }}
                                 onClick={() => this.toggleInfoWindow(marker.id)}
                                 label={marker.name.substring(0, 20)}
-                                icon={(marker.open && marker.open.freeSundays.open) ? 'http://maps.google.com/mapfiles/ms/icons/green-dot.png' : ''}>
+                                icon={this.resolveMarkerIcon(marker)}>
                                 {this.state.openMarkerId === marker.id &&
                                 <InfoWindow onCloseClick={() => this.toggleInfoWindow(marker.id)}>
                                     <InfoWindowContent marker={marker}
