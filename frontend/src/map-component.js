@@ -66,10 +66,7 @@ class MapComponent extends Component {
                             </Marker>
                         )}
                     {this.props.userLocation &&
-                    <Marker key='user' position={{
-                        lat: this.props.userLocation.coords.latitude,
-                        lng: this.props.userLocation.coords.longitude
-                    }}/>
+                    <Marker key='user' position={this.props.userLocation}/>
                     }
                 </GoogleMap>
             </div>
