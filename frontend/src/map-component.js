@@ -10,7 +10,15 @@ class MapComponent extends Component {
         super()
         this.warsawCoords = { lat: 52.237049, lng: 21.017532 }
         this.state = {
-            openMarkerId: null
+            openMarkerId: null,
+            centerChanged: false
+        }
+        this.map = undefined
+        this.buttonStyle = {
+            position: 'fixed',
+            top: '100px',
+            left: '50%',
+            transform: 'translateX(-50%)'
         }
     }
 
@@ -22,38 +30,49 @@ class MapComponent extends Component {
         }
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     // You don't have to do this check first, but it can help prevent an unneeded render
-    //     if (nextProps.userLocation !== this.state.userLocation) {
-    //
-    //     }
-    // }
+    onMapMounted(ref) {
+        this.map = ref
+    }
+
+    handleCenterChanged() {
+        this.setState({ centerChanged: true })
+        console.log(this.map.getCenter())
+    }
 
     render() {
         return (
-            <GoogleMap
-                defaultZoom={13}
-                defaultCenter={this.warsawCoords}
-                center={this.props.userLocation && this.props.userLocation}
-            >
-                {
-                    this.props.markers.map(marker =>
-                        <Marker key={marker.id} position={{ lat: marker.location.lat, lng: marker.location.lng }}
-                                onClick={() => this.toggleInfoWindow(marker.id)}>
-                            {this.state.openMarkerId === marker.id &&
-                            <InfoWindow onCloseClick={() => this.toggleInfoWindow(marker.id)}>
-                                <InfoWindowContent marker={marker}
-                                                   suggestOpen={this.props.handleSuggestOpen}
-                                                   suggestClosed={this.props.handleSuggestClosed}
-                                />
-                            </InfoWindow>
-                            }
-                        </Marker>
-                    )}
-                { this.props.userLocation &&
-                <Marker key='user' position={ this.props.userLocation }/>
-                }
-            </GoogleMap>
+            <div>
+                {this.state.centerChanged && <RaisedButton label="Wyszukaj w tym obszarze" style={this.buttonStyle}
+                                                           onClick={() => this.setState({ centerChanged: false })}/>}
+                <GoogleMap
+                    defaultZoom={13}
+                    defaultCenter={this.warsawCoords}
+                    center={this.props.userLocation && this.props.userLocation}
+                    onCenterChanged={() => this.handleCenterChanged()}
+                    ref={this.onMapMounted.bind(this)}
+                >
+                    {
+                        this.props.markers.map(marker =>
+                            <Marker key={marker.id} position={{ lat: marker.location.lat, lng: marker.location.lng }}
+                                    onClick={() => this.toggleInfoWindow(marker.id)}>
+                                {this.state.openMarkerId === marker.id &&
+                                <InfoWindow onCloseClick={() => this.toggleInfoWindow(marker.id)}>
+                                    <InfoWindowContent marker={marker}
+                                                       suggestOpen={this.props.handleSuggestOpen}
+                                                       suggestClosed={this.props.handleSuggestClosed}
+                                    />
+                                </InfoWindow>
+                                }
+                            </Marker>
+                        )}
+                    {this.props.userLocation &&
+                    <Marker key='user' position={{
+                        lat: this.props.userLocation.coords.latitude,
+                        lng: this.props.userLocation.coords.longitude
+                    }}/>
+                    }
+                </GoogleMap>
+            </div>
         )
     }
 }
@@ -83,11 +102,12 @@ const OpenWorkingSundaysPOIInfo = (props) => {
             <List>
                 <ListItem primaryText="Zamknięte w niedziele handlowe..." leftIcon={<AlertError/>}/>
                 {openSuggestions.length > 0 &&
-                <ListItem primaryText={`${openSuggestions.length}
+                <ListItem primaryText={`${openSuggestions.length} 
                     użytkowników zasugerowało otwarcie w niedziele handlowe`} leftIcon={<ActionGrade/>}/>
                 }
             </List>
-            <RaisedButton label="Oznacz jako otwarte" primary={true} onClick={() => props.suggestOpen(props.marker.id)}/>
+            <RaisedButton label="Oznacz jako otwarte" primary={true}
+                          onClick={() => props.suggestOpen(props.marker.id)}/>
         </div>
     )
 }
@@ -100,11 +120,12 @@ const OpenFreeSundaysPOIInfo = (props) => {
             <List>
                 <ListItem primaryText="Otwarte we wszystkie niedziele" leftIcon={<ActionGrade/>}/>
                 {closedSuggestions.length > 0 &&
-                <ListItem primaryText={`${closedSuggestions.length}
+                <ListItem primaryText={`${closedSuggestions.length} 
                     użytkowników zasugerowało zamknięcie w niedziele handlowe`} leftIcon={<AlertWarning/>}/>
                 }
             </List>
-            <RaisedButton label="Oznacz jako zamknięte" secondary={true} onClick={() => props.suggestClosed(props.marker.id)}/>
+            <RaisedButton label="Oznacz jako zamknięte" secondary={true}
+                          onClick={() => props.suggestClosed(props.marker.id)}/>
         </div>
     )
 }
