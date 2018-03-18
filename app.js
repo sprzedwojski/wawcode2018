@@ -74,6 +74,10 @@ app.post('/api/pois', poiController.addPoi)
 app.get('/api/google', googleApi.test)
 app.post('/api/pois/:id', poiController.editPoi)
 
+// Admin
+app.post('/api/admin/pois/:id', poiController.editPoiAdmin)
+app.get('/api/admin/pois/all', poiController.getOurPois)
+
 /**
  * Error Handler.
  */

@@ -16,3 +16,11 @@ exports.addPoi = (req, res) => {
 exports.editPoi = (req, res) => {
     poiService.editPoi(req.params.id, req.body, () => res.sendStatus(200))
 }
+
+exports.editPoiAdmin = (req, res) => {
+    poiService.editPoi(req.params.id, req.body, () => res.sendStatus(200))
+}
+
+exports.getOurPois = (req, res) => {
+    res.json(poiService.getOurPois())
+}

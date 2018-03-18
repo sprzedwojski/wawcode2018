@@ -61,6 +61,16 @@ class App extends Component {
         })
     }
 
+    handleAdminMarkOpen(markerId) {
+        console.log(`marker id ${markerId} admin marked as open`)
+        client.post(`/api/admin/pois/${markerId}`, {
+            open: true
+        }).then((res) => {
+            console.log(res)
+            this.getPois()
+        })
+    }
+
     render() {
         return (
             <div className="App">
@@ -68,6 +78,7 @@ class App extends Component {
                 <MapComponent
                     handleSuggestOpen={id => this.handleSuggestOpen(id)}
                     handleSuggestClosed={id => this.handleSuggestClosed(id)}
+                    handleAdminMarkOpen={id => this.handleAdminMarkOpen(id)}
                     markers={this.state.pois}
                     googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAjCi8R-MDjzw40FbSMKNRNfgsjySNiJuM"
                     loadingElement={<div style={{ height: '100%' }}/>}

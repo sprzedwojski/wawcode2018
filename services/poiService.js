@@ -45,3 +45,24 @@ exports.editPoi = (id, open, callback) => {
     }
     callback()
 }
+
+exports.editPoi = (id, open, callback) => {
+    const item = getPoiById(id)
+    if (item === undefined) {
+        this.savePoi({
+            id,
+            open: {
+                freeSundays: {
+                    open: true,
+                    openingHour: '9:00',
+                    closingHour: '17:00'
+                },
+                workingSundays: {},
+                freeSundaysSuggestions: []
+            }
+        })
+    }
+    callback()
+}
+
+exports.getOurPois = () => localPoiStorage

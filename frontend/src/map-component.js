@@ -73,6 +73,7 @@ class MapComponent extends Component {
                                     <InfoWindowContent marker={marker}
                                                        suggestOpen={this.props.handleSuggestOpen}
                                                        suggestClosed={this.props.handleSuggestClosed}
+                                                       adminMarkOpen={this.props.handleAdminMarkOpen}
                                     />
                                 </InfoWindow>
                                 }
@@ -98,6 +99,7 @@ const InfoWindowContent = props => (
         {props.marker.open && props.marker.open.freeSundays.open && <OpenFreeSundaysPOIInfo {...props}/>}
         {props.marker.open && !props.marker.open.freeSundays.open && <OpenWorkingSundaysPOIInfo {...props}/>}
         {!props.marker.open && <UnknownPOIInfo {...props}/>}
+        <RaisedButton label="Admin: Oznacz jako otwarte" secondary={true} onClick={() => props.adminMarkOpen(props.marker.id)}/>
     </div>
 )
 
