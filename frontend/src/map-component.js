@@ -122,6 +122,7 @@ class MapComponent extends Component {
 
 const InfoWindowContent = props => (
     <div>
+        {<List><ListItem primaryText={props.marker.name}/></List>}
         {props.marker.open && props.marker.open.freeSundays.open && <OpenFreeSundaysPOIInfo {...props}/>}
         {props.marker.open && !props.marker.open.freeSundays.open && <OpenWorkingSundaysPOIInfo {...props}/>}
         {!props.marker.open && <UnknownPOIInfo {...props}/>}
