@@ -4,8 +4,8 @@ import React, { Component } from 'react'
 import { GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs } from 'react-google-maps'
 import { List, ListItem } from 'material-ui/List'
 import ActionGrade from 'material-ui/svg-icons/action/grade'
-import { AlertError, AlertWarning } from 'material-ui/svg-icons/index'
-import { RaisedButton } from 'material-ui'
+import { AlertError, AlertWarning, DeviceGpsFixed } from 'material-ui/svg-icons/index'
+import { FloatingActionButton, RaisedButton} from 'material-ui'
 
 class MapComponent extends Component {
     constructor() {
@@ -24,7 +24,7 @@ class MapComponent extends Component {
         }
         this.centerButtonStyle = {
             position: 'fixed',
-            top: '100px',
+            bottom: '100px',
             right: '5%',
             transform: 'translateX(5%)'
         }
@@ -62,10 +62,12 @@ class MapComponent extends Component {
             <div>
                 {this.state.centerChanged && <RaisedButton label="Wyszukaj w tym obszarze" style={this.buttonStyle}
                                                            onClick={() => this.forceGetPois()}/>}
-                <RaisedButton label="Wycentruj na mnie" style={this.centerButtonStyle} onClick={() => {
+                <FloatingActionButton mini={true} style={this.centerButtonStyle} onClick={() => {
                     this.map.panTo(this.props.userLocation)
                     this.forceGetPois()
-                }}/>
+                }}>
+                    <DeviceGpsFixed/>
+                </FloatingActionButton>
 
                 <GoogleMap
                     defaultZoom={17}
