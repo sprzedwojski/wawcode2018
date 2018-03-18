@@ -92,7 +92,6 @@ class MapComponent extends Component {
                                 </InfoWindow>
                                 }
                             </Marker>
-
                         )}
                     {this.props.userLocation &&
                     <Marker key='user' position={this.props.userLocation}

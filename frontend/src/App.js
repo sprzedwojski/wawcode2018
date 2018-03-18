@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { AppBar, Toggle } from 'material-ui'
+import { AppBar, Toggle, Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui'
+import { ActionTrackChanges } from 'material-ui/svg-icons/index'
 import client from './client'
 import './App.css'
 import MapComponent from './map-component'
@@ -16,6 +17,29 @@ class App extends Component {
         this.warsawCenterLatLong = '52.237049,21.017532'
         this.lastLatLong = this.warsawCenterLatLong
         this.searchType = 'store'
+        this.freeSundays = [
+            '2018-03-18',
+            '2018-04-01',
+            '2018-04-08',
+            '2018-04-22',
+            '2018-05-13',
+            '2018-05-20',
+            '2018-06-10',
+            '2018-06-17',
+            '2018-07-08',
+            '2018-07-15',
+            '2018-07-22',
+            '2018-08-12',
+            '2018-08-19',
+            '2018-09-09',
+            '2018-09-16',
+            '2018-09-23',
+            '2018-10-14',
+            '2018-10-21',
+            '2018-11-11',
+            '2018-11-18',
+            '2018-12-09'
+        ]
         this.poiTypes = [
             {
                 namePl: 'Wszystkie',
@@ -78,6 +102,15 @@ class App extends Component {
             console.log('error getting location', error)
         })
         console.log(process.env.NODE_ENV)
+    }
+
+    getNextSunday() {
+        const sunday = 0
+        const date = new Date()
+        if (date.getDay() === sunday) {
+            return date
+        }
+        return new Date(date.getFullYear(), date.getMonth(), date.getDate() + (7 - date.getDay()))
     }
 
     getPois(latLong) {
@@ -155,6 +188,17 @@ class App extends Component {
                 color: 'white',
             }
         }
+        const today = new Date()
+        const nextSunday = this.getNextSunday()
+        const isSunday = today.toISOString().split('T')[0] === nextSunday.toISOString().split('T')[0]
+        const isNextSundayFree = this.freeSundays.filter(date => new Date(date) === nextSunday)
+        let message = ''
+        if (isSunday) {
+            message = 'Dziś jest niedziela  '
+        } else {
+            message = `Następna niedziela to ${nextSunday.toLocaleString().split(',')[0]}. To będzie niedziela  `
+        }
+        message = message.concat(isNextSundayFree ? 'niehandlowa.' : 'zwykła.')
         return (
             <div className="App">
                 <AppBar title="Gdzie na zakupy w niedzielę?"
@@ -174,6 +218,14 @@ class App extends Component {
                           onTypeSelected={poiType => this.handleTypeSelected(poiType)}
                           items={this.poiTypes}
                 />
+                <Toolbar>
+                    <ToolbarGroup>
+                        {
+                            isSunday && isNextSundayFree && <ActionTrackChanges color={'lime'}/>
+                        }
+                        <ToolbarTitle text={message} />
+                    </ToolbarGroup>
+                </Toolbar>
                 <MapComponent
                     handleSuggestOpen={id => this.handleSuggestOpen(id)}
                     handleSuggestClosed={id => this.handleSuggestClosed(id)}
