@@ -15,8 +15,12 @@ class App extends Component {
     componentDidMount() {
         this.getPois()
         navigator.geolocation.getCurrentPosition((position) => {
-            this.setState({ location: position })
-            console.log('position:', position)
+            this.setState({
+                location: {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                }
+            })
         }, (error) => {
             console.log('error getting location', error)
         })

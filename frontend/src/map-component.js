@@ -22,11 +22,19 @@ class MapComponent extends Component {
         }
     }
 
+    // componentWillReceiveProps(nextProps) {
+    //     // You don't have to do this check first, but it can help prevent an unneeded render
+    //     if (nextProps.userLocation !== this.state.userLocation) {
+    //
+    //     }
+    // }
+
     render() {
         return (
             <GoogleMap
                 defaultZoom={13}
                 defaultCenter={this.warsawCoords}
+                center={this.props.userLocation && this.props.userLocation}
             >
                 {
                     this.props.markers.map(marker =>
@@ -43,7 +51,7 @@ class MapComponent extends Component {
                         </Marker>
                     )}
                 { this.props.userLocation &&
-                <Marker key='user' position={{ lat: this.props.userLocation.coords.latitude, lng: this.props.userLocation.coords.longitude }} />
+                <Marker key='user' position={ this.props.userLocation }/>
                 }
             </GoogleMap>
         )
@@ -75,7 +83,7 @@ const OpenWorkingSundaysPOIInfo = (props) => {
             <List>
                 <ListItem primaryText="Zamknięte w niedziele handlowe..." leftIcon={<AlertError/>}/>
                 {openSuggestions.length > 0 &&
-                <ListItem primaryText={`${openSuggestions.length} 
+                <ListItem primaryText={`${openSuggestions.length}
                     użytkowników zasugerowało otwarcie w niedziele handlowe`} leftIcon={<ActionGrade/>}/>
                 }
             </List>
@@ -92,7 +100,7 @@ const OpenFreeSundaysPOIInfo = (props) => {
             <List>
                 <ListItem primaryText="Otwarte we wszystkie niedziele" leftIcon={<ActionGrade/>}/>
                 {closedSuggestions.length > 0 &&
-                <ListItem primaryText={`${closedSuggestions.length} 
+                <ListItem primaryText={`${closedSuggestions.length}
                     użytkowników zasugerowało zamknięcie w niedziele handlowe`} leftIcon={<AlertWarning/>}/>
                 }
             </List>
