@@ -46,7 +46,10 @@ exports.editPoi = (id, open, callback) => {
     callback()
 }
 
-exports.editPoi = (id, open, callback) => {
+const openingHours = ['9:00', '10:00', '11:00', '12:00']
+const closingHours = ['14:00', '15:00', '16:00', '17:00', '18:00']
+
+exports.editPoiAdmin = (id, open, callback) => {
     const item = getPoiById(id)
     if (item === undefined) {
         this.savePoi({
@@ -54,8 +57,8 @@ exports.editPoi = (id, open, callback) => {
             open: {
                 freeSundays: {
                     open: true,
-                    openingHour: '9:00',
-                    closingHour: '17:00'
+                    openingHour: openingHours[Math.floor(Math.random() * openingHours.length)],
+                    closingHour: closingHours[Math.floor(Math.random() * closingHours.length)]
                 },
                 workingSundays: {},
                 freeSundaysSuggestions: []

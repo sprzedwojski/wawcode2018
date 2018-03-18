@@ -105,7 +105,6 @@ class App extends Component {
                             style={{ marginTop: '1rem' }}
                             defaultToggled={true}
                             onToggle={(event, isInputChecked) => this.handleOnlyFreeSundaysToggled(event, isInputChecked)}
-                            iconClassNameRight='toggle-free-sundays'
                         />}
                 />
                 <MapComponent

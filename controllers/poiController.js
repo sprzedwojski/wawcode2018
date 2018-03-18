@@ -18,7 +18,7 @@ exports.editPoi = (req, res) => {
 }
 
 exports.editPoiAdmin = (req, res) => {
-    poiService.editPoi(req.params.id, req.body, () => res.sendStatus(200))
+    poiService.editPoiAdmin(req.params.id, req.body, () => res.sendStatus(200))
 }
 
 exports.getOurPois = (req, res) => {
