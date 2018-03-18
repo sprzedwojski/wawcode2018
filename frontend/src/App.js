@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AppBar } from 'material-ui'
+import { AppBar, Toggle } from 'material-ui'
 import client from './client'
 import './App.css'
 import MapComponent from './map-component'
@@ -8,7 +8,8 @@ class App extends Component {
     constructor() {
         super()
         this.state = {
-            pois: []
+            pois: [],
+            onlyFreeSundays: true
         }
         this.warsawCenterLatLong = '52.237049,21.017532'
         this.lastLatLong = this.warsawCenterLatLong
@@ -32,7 +33,9 @@ class App extends Component {
     }
 
     getPois(latLong) {
-        if (latLong) { this.lastLatLong = latLong }
+        if (latLong) {
+            this.lastLatLong = latLong
+        }
 
         client.get('/api/pois', {
             params: {
@@ -74,15 +77,41 @@ class App extends Component {
         })
     }
 
+    handleOnlyFreeSundaysToggled(event, isInputChecked) {
+        this.setState({ onlyFreeSundays: isInputChecked })
+        console.log(isInputChecked)
+    }
+
     render() {
+        const styles = {
+            thumbSwitched: {
+                backgroundColor: '#48ff00',
+            },
+            trackSwitched: {
+                backgroundColor: '#8bff5e',
+            },
+            labelStyle: {
+                color: 'white',
+            }
+        }
         return (
             <div className="App">
-                <AppBar title="Gdzie na zakupy w niedzielę?"/>
+                <AppBar title="Gdzie na zakupy w niedzielę?"
+                        iconElementRight={<Toggle
+                            label="Tylko niedziele niehandlowe"
+                            thumbSwitchedStyle={styles.thumbSwitched}
+                            trackSwitchedStyle={styles.trackSwitched}
+                            labelStyle={styles.labelStyle}
+                            style={{ marginTop: '1rem' }}
+                            defaultToggled={true}
+                            onToggle={(event, isInputChecked) => this.handleOnlyFreeSundaysToggled(event, isInputChecked)}
+                        />}
+                />
                 <MapComponent
                     handleSuggestOpen={id => this.handleSuggestOpen(id)}
                     handleSuggestClosed={id => this.handleSuggestClosed(id)}
                     handleAdminMarkOpen={id => this.handleAdminMarkOpen(id)}
-                    markers={this.state.pois}
+                    markers={this.state.onlyFreeSundays ? this.state.pois.filter(poi => poi.open && poi.open.freeSundays.open) : this.state.pois}
                     googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAjCi8R-MDjzw40FbSMKNRNfgsjySNiJuM"
                     loadingElement={<div style={{ height: '100%' }}/>}
                     containerElement={<div style={{ height: '90vh' }}/>}
