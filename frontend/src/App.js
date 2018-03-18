@@ -221,9 +221,9 @@ class App extends Component {
                 <Toolbar>
                     <ToolbarGroup>
                         {
-                            isSunday && isNextSundayFree && <ActionTrackChanges color={'lime'}/>
+                            isSunday && isNextSundayFree && <ActionTrackChanges color={'red'}/>
                         }
-                        <ToolbarTitle text={message} />
+                        <ToolbarTitle text={message} style={{ marginLeft: '50px'}}/>
                     </ToolbarGroup>
                 </Toolbar>
                 <MapComponent

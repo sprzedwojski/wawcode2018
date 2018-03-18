@@ -18,7 +18,7 @@ class MapComponent extends Component {
         this.map = undefined
         this.buttonStyle = {
             position: 'fixed',
-            top: '100px',
+            top: '125px',
             left: '50%',
             transform: 'translateX(-50%)'
         }
