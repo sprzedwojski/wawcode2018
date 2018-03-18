@@ -24,6 +24,7 @@ class App extends Component {
                     lng: position.coords.longitude
                 }
             })
+            this.getPois(`${position.coords.latitude},${position.coords.longitude}`)
         }, (error) => {
             console.log('error getting location', error)
         })
