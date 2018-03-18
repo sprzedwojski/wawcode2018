@@ -46,7 +46,7 @@ class MapComponent extends Component {
                 {this.state.centerChanged && <RaisedButton label="Wyszukaj w tym obszarze" style={this.buttonStyle}
                                                            onClick={() => this.setState({ centerChanged: false })}/>}
                 <GoogleMap
-                    defaultZoom={13}
+                    defaultZoom={15}
                     defaultCenter={this.warsawCoords}
                     center={this.props.userLocation && this.props.userLocation}
                     onCenterChanged={() => this.handleCenterChanged()}
@@ -72,7 +72,8 @@ class MapComponent extends Component {
                     <Marker key='user' position={this.props.userLocation}
                     icon={{
                         path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-                        scale: 4
+                        scale: 4,
+                        strokeColor: 'blue'
                             }}
                 />
                     }
