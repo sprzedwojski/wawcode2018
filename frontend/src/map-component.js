@@ -79,8 +79,9 @@ class MapComponent extends Component {
                         this.props.markers.map(marker =>
                             <Marker key={marker.id}
                                 position={{ lat: marker.location.lat, lng: marker.location.lng }}
-                                    onClick={() => this.toggleInfoWindow(marker.id)}
-                                label={marker.name.substring(0, 20)}>
+                                onClick={() => this.toggleInfoWindow(marker.id)}
+                                label={marker.name.substring(0, 20)}
+                                icon={(marker.open && marker.open.freeSundays.open) ? 'http://maps.google.com/mapfiles/ms/icons/green-dot.png' : ''}>
                                 {this.state.openMarkerId === marker.id &&
                                 <InfoWindow onCloseClick={() => this.toggleInfoWindow(marker.id)}>
                                     <InfoWindowContent marker={marker}
@@ -91,14 +92,11 @@ class MapComponent extends Component {
                                 </InfoWindow>
                                 }
                             </Marker>
+
                         )}
                     {this.props.userLocation &&
                     <Marker key='user' position={this.props.userLocation}
-                    icon={{
-                        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-                        scale: 4,
-                        strokeColor: 'blue'
-                            }}
+                    icon='https://cdn2.iconfinder.com/data/icons/flat-ui-icons-24-px/24/location-24-32.png'
                 />
                     }
                 </GoogleMap>
