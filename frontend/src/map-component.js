@@ -50,14 +50,13 @@ class MapComponent extends Component {
                     defaultCenter={this.warsawCoords}
                     center={this.props.userLocation && this.props.userLocation}
                     onCenterChanged={() => this.handleCenterChanged()}
-                    ref={this.onMapMounted.bind(this)}
-                >
+                    ref={this.onMapMounted.bind(this)}>
                     {
                         this.props.markers.map(marker =>
                             <Marker key={marker.id}
                                 position={{ lat: marker.location.lat, lng: marker.location.lng }}
                                     onClick={() => this.toggleInfoWindow(marker.id)}
-                                label={marker.name}>
+                                label={marker.name.substring(0, 20)}>
                                 {this.state.openMarkerId === marker.id &&
                                 <InfoWindow onCloseClick={() => this.toggleInfoWindow(marker.id)}>
                                     <InfoWindowContent marker={marker}
